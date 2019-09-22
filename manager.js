@@ -44,9 +44,9 @@ module.exports = function(mongoDBConnectionString) {
         },
 
         //GET ONE
-        usersGetById: function (){
+        usersGetById: function (username){
             return new Promise(function (resolve, reject){
-                Users.findById(userId, (error, item) => {
+                Users.findOne({ userName: username }, (error, item) => {
                     if (error) {
                         return reject(error.message);
                     }
@@ -77,9 +77,9 @@ module.exports = function(mongoDBConnectionString) {
         },
 
         //GET ONE
-        subscriptionsGetById: function(){
+        subscriptionsGetById: function(subid){
             return new Promise(function (resolve, reject){
-                Subscriptions.findById(subId, (error, item) =>{
+                Subscriptions.findOne({subId: subid}, (error, item) =>{
                     if (error) {
                         return reject(error.message);
                     }

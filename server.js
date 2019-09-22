@@ -34,8 +34,8 @@ app.get("/api/users", (req, res) => {
     });
 });
 //Get One
-app.get("/api/users/:userId", (req, res) => {
-    m.usersGetById(req.params.userId)
+app.get("/api/users/:username", (req, res) => {
+    m.usersGetById(req.params.username)
     .then(data => {
         res.json(data);
     })
