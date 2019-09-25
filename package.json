@@ -1,7 +1,6 @@
 {
   "name": "userregistration-service",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"
@@ -20,5 +19,7 @@
     "nodemon": "^1.19.2",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
