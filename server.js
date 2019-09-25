@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
