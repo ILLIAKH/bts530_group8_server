@@ -8,10 +8,8 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 const manager = require("./manager.js");
 
-dotenv.config();
-
 const m = manager(
-    process.env.DB_CONNECT,
+    "mongodb+srv://IKHOMENKO:iphone3G@senecaweb-mymvn.mongodb.net/BTS530?retryWrites=true",
     { useUnifiedTopology: true },
     () => console.log("Connected to DB")
 );
