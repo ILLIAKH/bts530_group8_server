@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs');
 
-mongoose.set("useNewUrlParser", true);
-mongoose.set("useFindAndModify", false);
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 //load schemas
 const users = require("./msc-useraccounts");
@@ -25,6 +27,92 @@ module.exports = function(mongoDBConnectionString) {
                 });
             });
         },
+
+
+      
+
+        /////Register---------------------------------------------------------------------
+        usersRegister: function (userData) {
+            return new Promise(function (resolve, reject) {
+
+                if (userData.userName.length == 0 | userData.password.length == 0 | userData.passwordConfirm.length == 0) {
+                    return reject('Invalid credentials');
+                }
+
+                if (userData.password != userData.passwordConfirm) {
+                    return reject("Passwords do not match");
+                }
+
+                // Generate a "salt" value
+                var salt = bcrypt.genSaltSync(10);
+                // Hash the result
+                var hash = bcrypt.hashSync(userData.password, salt);
+
+                // Update the incoming data
+                userData.password = hash;
+
+                // Create a new user account document
+                let newUser = new Users(userData);
+                // Add properties
+                newUser.statusActivated = true;
+                newUser.statusLocked = false;
+
+                // Attempt to save
+                newUser.save((error) => {
+                    if (error) {
+                        if (error.code == 11000) {
+                            reject("User account creation - cannot create; user already exists");
+                        } else {
+                            reject(`User account creation - ${error.message}`);
+                        }
+                    } else {
+                        resolve("User account was created");
+                    }
+                }); //newUser.save
+            }); // return new Promise
+        }, // useraccountsRegister
+        /////Login------------------------------------------------------------------------
+        usersLogin: function(userData){
+            return new Promise(function(resolve, reject){
+                if(userData.userName.length == 0 | userData.password.length == 0){
+                    return reject("Invalid Credentials");
+                }
+
+                Users.findOne({
+                userName: userData.userName
+                }, (error, item) => {
+                if (error) {
+                    // Query error
+                    return reject(`Login - ${error.message}`);
+                }
+                // Check for an item
+                if (item) {
+
+                    // // Ensure that the account is active
+                    // if (!item.statusActivated) {
+                    //     return reject('Account is not activated')
+                    // }
+                    // // Ensure that the account is unlocked
+                    // if (item.statusLocked) {
+                    //     return reject('Account is locked');
+                    // }
+
+                    // Compare password with stored value
+                    let isPasswordMatch = bcrypt.compareSync(userData.password, item.password);
+                    if (isPasswordMatch) {
+                        //return resolve('Login was successful');
+                        return resolve(item);
+                    } else {
+                        return reject('Login was not successful');
+                    }
+                } else {
+                    return reject('Login - not found');
+                }
+
+               }); // UserAccounts.findOneAndUpdate
+             }); // return new Promise
+          }, // useraccountsLogin
+
 
         /////Users------------------------------------------------------------------------
         //GET ALL

@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 var Subscriptions = require('./msc-subscriptions');
 
 module.exports = new Schema({
-    userId: Number,
     userName: String,
     fullName: String,
     password: String,
