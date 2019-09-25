@@ -1,29 +1,21 @@
 {
-  "engines": {
-    "node": "8.12.0"
-  },
   "name": "userregistration-service",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "manager.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "IK",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.1.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.1",
-    "nodejs": "0.0.0",
-    "nodemon": "^1.19.2",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "sqlite3": "^4.1.0"
+    "path": "^0.12.7"
   },
   "devDependencies": {},
   "description": ""
