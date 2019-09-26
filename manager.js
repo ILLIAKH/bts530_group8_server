@@ -35,6 +35,7 @@ module.exports = function(mongoDBConnectionString) {
         usersRegister: function (userData) {
             return new Promise(function (resolve, reject) {
 
+               
                 if (userData.userName.length == 0 | userData.password.length == 0 | userData.passwordConfirm.length == 0) {
                     return reject('Invalid credentials');
                 }
