@@ -41,9 +41,6 @@ var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     console.log('payload received', jwt_payload);
 
     if (jwt_payload) {
-        // The following will ensure that all routes using 
-        // passport.authenticate have a req.user._id value 
-        // that matches the request payload's _id
         next(null, {
             _id: jwt_payload._id
         });
@@ -73,7 +70,7 @@ app.post("/api/users/login", (req, res) => {
     m.usersLogin(req.body)
     .then((data) => {
         var payload = {
-            // _id: data._id,
+            _id: data._id,
             userName: data.userName,
             password: data.password
         };
