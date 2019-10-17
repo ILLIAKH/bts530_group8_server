@@ -148,6 +148,24 @@ module.exports = function(mongoDBConnectionString) {
             });
         },
 
+        //GET ADMIN
+        admin: function () {
+            return new Promise(function (resolve, reject) {
+                Users.find({ 
+                    isAdmin: true 
+                })
+                .exec((error, items) => {
+                    if (error) {
+                      // Query error
+                      return reject(error.message);
+                    }
+                    // Found, a collection will be returned
+                    return resolve(items);
+                    
+                  });
+              })
+        },
+
         //Subscriptions---------------------------------------------------------------------
         //GET ALL
         subscriptionsGetAll: function() {
@@ -226,7 +244,58 @@ module.exports = function(mongoDBConnectionString) {
                     return resolve(items);
                 });
             });
-        }
+        },
+
+        //ADD NEW
+        subscriptionAdd: function (newItem) {
+            return new Promise(function (resolve, reject) {
+      
+              Subscriptions.create(newItem, (error, item) => {
+                if (error) {
+                  // Cannot add item
+                  return reject(error.message);
+                }
+                //Added object will be returned
+                return resolve(item);
+              });
+            })
+          },
+
+          //UPDATE SUBSCRIPTION
+          subscriptionUpdate: function (newItem) {
+            return new Promise(function (resolve, reject) {
+      
+              Subscriptions.findByIdAndUpdate(newItem._id, newItem, { new: true }, (error, item) => {
+                if (error) {
+                  // Cannot edit item
+                  return reject(error.message);
+                }
+                // Check for an item
+                if (item) {
+                  // Edited object will be returned
+                  return resolve(item);
+                } else {
+                  return reject('Not found');
+                }
+      
+              });
+            })
+          },
+
+          //DELETE SUBSCRIPTION
+          subscriptionDelete: function (itemId) {
+            return new Promise(function (resolve, reject) {
+      
+              Subscriptions.findByIdAndRemove(itemId, (error) => {
+                if (error) {
+                  // Cannot delete item
+                  return reject(error.message);
+                }
+                // Return success, but don't leak info
+                return resolve();
+              })
+            })
+          }
 
 
     }; ////

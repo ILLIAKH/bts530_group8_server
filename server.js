@@ -41,6 +41,8 @@ var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     console.log('payload received', jwt_payload);
 
     if (jwt_payload) {
+    // Attach the token's contents to the request
+    // It will be available as "req.user" in the route handler functions
         next(null, {
             _id: jwt_payload._id
         });
@@ -114,6 +116,19 @@ app.get("/api/users/:username", (req, res) => {
     });
 });
 
+//Get Admins
+app.get("/api/users/admin", (req, res) => {
+    m.admin()
+    .then(data => {
+        res.json(data);
+    })
+    .catch(() => {
+        res.status(404).json({
+            message: "Resource not found"
+        });
+    });
+});
+
 //Subscriptions-------------------------------------------------------------------------------------------
 
 //Get All
@@ -141,6 +156,60 @@ app.get("/api/subscriptions/:subId", (req, res) => {
         });
     });
 });
+
+
+
+// Add New Subscription
+app.post("/api/subscriptions", passport.authenticate('jwt', { session: false }), (req, res) => {
+    // req.user has the token contents
+    //I don't know why this if condition is not working
+    if (req.user.isAdmin === true) {
+      // Success
+      m.subscriptionAdd(req.body)
+      .then((data) => {
+        res.json(data); 
+      })
+      .catch((error) => {
+        res.status(500).json({ "message": error });
+      })
+    } else {
+      res.status(403).json({ message: "User does not have the required permission" })
+    }
+  });
+
+// Update Subscription
+app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (req.user.isAdmin === true) {
+  // Call the manager method
+  m.subscriptionUpdate(req.params.id)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch(() => {
+      res.status(404).json({ "message": "Resource not found" });
+    })
+  } else {
+    res.status(403).json({ message: "User does not have the role claim needed" })
+  }
+});
+
+// Delete Subscription
+app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+    if (req.user.isAdmin === true) {
+    // Call the manager method
+    m.subscriptionDelete(req.params.id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(() => {
+        res.status(404).json({ "message": "Resource not found" });
+      })
+    } else {
+      res.status(403).json({ message: "User does not have the role claim needed" })
+    }
+  });
+
+
 
 //Select by type----------------------------------------------------------------------------
 
