@@ -104,7 +104,7 @@ app.get("/api/users", (req, res) => {
     });
 });
 //Get One
-app.get("/api/users/:username", (req, res) => {
+app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.usersGetById(req.params.username)
     .then(data => {
         res.json(data);
@@ -117,7 +117,7 @@ app.get("/api/users/:username", (req, res) => {
 });
 
 //Get Admins
-app.get("/api/users/admin", (req, res) => {
+app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.admin()
     .then(data => {
         res.json(data);
