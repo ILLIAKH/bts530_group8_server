@@ -92,7 +92,7 @@ app.post("/api/users/login", (req, res) => {
 //Users---------------------------------------------------------------------------------------------------
 
 //Get All
-app.get("/api/users", (req, res) => {
+app.get("/api/users", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.usersGetAll()
     .then(data => {
         res.json(data);
