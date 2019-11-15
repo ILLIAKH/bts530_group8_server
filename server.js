@@ -117,7 +117,7 @@ app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(
 });
 
 //Update User
-app.put("/api/users/:userName", passport.authenticate('jwt', {session: false}), (req, res) => {
+app.put("/api/users/:userName/update", passport.authenticate('jwt', {session: false}), (req, res) => {
         // Call the manager method
         m.subscriptionUpdate(req.params.userName)
             .then((data) => {
@@ -131,7 +131,7 @@ app.put("/api/users/:userName", passport.authenticate('jwt', {session: false}), 
 });
 
 // Delete User
-app.delete("/api/users/:userName", passport.authenticate('jwt', {
+app.delete("/api/users/:userName/delete", passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
         // Call the manager method
