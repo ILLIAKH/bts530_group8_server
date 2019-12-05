@@ -333,7 +333,29 @@ module.exports = function(mongoDBConnectionString) {
                 return resolve();
               })
             })
-          }
+          },
+
+          //Assign subscription to user
+          subscriptionConfirm: function (userId, subscriptionInfo) {
+              return new Promise(function (resolve, reject) {
+                  var wrap = {
+                      "subscriptionInfo": subscriptionInfo
+                  };
+                  Student.findByIdAndUpdate(userId._id, wrap, {
+                      new: true
+                  }, (error, item) => {
+                      if (error) {
+                          return reject(error.message);
+                      }
+                      // Check for an item
+                      if (item) {
+                          return resolve("Subscription Confirmed");
+                      } else {
+                          return reject('Not found');
+                      }
+                  });
+              });
+          },
 
 
     }; ////

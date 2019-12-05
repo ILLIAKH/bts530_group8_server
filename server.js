@@ -162,6 +162,23 @@ app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req,
 
 //Subscriptions-------------------------------------------------------------------------------------------
 
+// Confirm subscription 
+app.put("/api/students/:userName/subscriptions/confirmed", (req, res) => {
+    // Call the manager method
+    m.subscriptionConfirm(req.params.id, req.body)
+        .then((data) => {
+            res.json({
+                "message": "Subscription confirmed successfully"
+            });
+        })
+        .catch(() => {
+            res.status(404).json({
+                "message": "Resource not found"
+            });
+        })
+});
+
+
 //Get All
 app.get("/api/subscriptions", (req, res) => {
     m.subscriptionsGetAll()
