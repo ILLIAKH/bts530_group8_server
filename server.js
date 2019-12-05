@@ -163,7 +163,7 @@ app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req,
 //Subscriptions-------------------------------------------------------------------------------------------
 
 // Confirm subscription 
-app.put("/api/students/:userName/subscriptions/confirmed", (req, res) => {
+app.put("/api/subscriptions/:_id/confirmed", (req, res) => {
     // Call the manager method
     m.subscriptionConfirm(req.params.id, req.body)
         .then((data) => {
