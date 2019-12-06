@@ -211,7 +211,7 @@ app.get("/api/subscriptions/:subId", (req, res) => {
 app.post("/api/subscriptions/create",  (req, res) => {
     // req.user has the token contents
     //I don't know why this if condition is not working
-    if (req.user.isAdmin === true) {
+    //if (req.user.isAdmin === true) {
       // Success
       m.subscriptionAdd(req.body)
       .then((data) => {
@@ -220,9 +220,9 @@ app.post("/api/subscriptions/create",  (req, res) => {
       .catch((error) => {
         res.status(500).json({ "message": error });
       })
-    } else {
-      res.status(403).json({ message: "User does not have the required permission" })
-    }
+   // } else {
+   //   res.status(403).json({ message: "User does not have the required permission" })
+    //}
   });
 
 // Update Subscription
