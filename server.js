@@ -243,7 +243,7 @@ app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false 
 
 // Delete Subscription
 app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-    if (req.user.isAdmin === true) {
+   // if (req.user.isAdmin === true) {
     // Call the manager method
     m.subscriptionDelete(req.params.id)
       .then(() => {
@@ -252,9 +252,9 @@ app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: fal
       .catch(() => {
         res.status(404).json({ "message": "Resource not found" });
       })
-    } else {
-      res.status(403).json({ message: "User does not have the role claim needed" })
-    }
+  //  } else {
+   //   res.status(403).json({ message: "User does not have the role claim needed" })
+    //}
   });
 
 
