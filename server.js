@@ -135,7 +135,7 @@ app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
         // Call the manager method
-        m.subscriptionDelete(req.params._id)
+        m.usersDelete(req.params._id)
             .then(() => {
                 res.status(204).end();
             })
