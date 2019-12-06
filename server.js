@@ -208,7 +208,7 @@ app.get("/api/subscriptions/:subId", (req, res) => {
 
 
 // Add New Subscription
-app.post("/api/subscriptions/create", passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post("/api/subscriptions/create",  (req, res) => {
     // req.user has the token contents
     //I don't know why this if condition is not working
     if (req.user.isAdmin === true) {
