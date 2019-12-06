@@ -131,11 +131,11 @@ app.put("/api/users/:userName/update", passport.authenticate('jwt', {session: fa
 });
 
 // Delete User
-app.delete("/api/users/:userName/delete", passport.authenticate('jwt', {
+app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
         // Call the manager method
-        m.subscriptionDelete(req.params.userName)
+        m.subscriptionDelete(req.params._id)
             .then(() => {
                 res.status(204).end();
             })
