@@ -146,7 +146,6 @@ app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
             });
 });
 
-
 //Get Admins
 app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.admin()

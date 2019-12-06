@@ -152,7 +152,7 @@ module.exports = function(mongoDBConnectionString) {
          usersUpdate: function (newItem) {
                  return new Promise(function (resolve, reject) {
 
-                     Subscriptions.findByIdAndUpdate(newItem._id, newItem, {
+                     Users.findByIdAndUpdate(newItem._id, newItem, {
                          new: true
                      }, (error, item) => {
                          if (error) {
@@ -174,7 +174,7 @@ module.exports = function(mongoDBConnectionString) {
              //DELETE USER
              usersDelete: function (itemId) {
                  return new Promise(function (resolve, reject) {
-                     Subscriptions.findByIdAndRemove(itemId, (error) => {
+                     Users.findByIdAndRemove(itemId, (error) => {
                          if (error) {
                              // Cannot delete item
                              return reject(error.message);
@@ -184,7 +184,6 @@ module.exports = function(mongoDBConnectionString) {
                      });
                  });
              },
-
 
         //GET ADMIN
         admin: function () {
