@@ -10,4 +10,5 @@ module.exports = new Schema({
     statusLocked: Boolean,
     isAdmin: Boolean,
     subscriptionInfo: [Subscriptions]
+//hello
 });
