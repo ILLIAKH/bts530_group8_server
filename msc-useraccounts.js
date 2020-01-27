@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var Subscriptions = require('./msc-subscriptions');
+var Dates = require('./msc-pastD');
 
 module.exports = new Schema({
     userName: {type: String, unique: true},
@@ -17,6 +18,8 @@ module.exports = new Schema({
     province: String,
     country: String,
     postalCode: String,
+    futureDeliveries: Date,
+    pastDeliveries: [Dates],
     subscriptionInfo: [Subscriptions],
     //hello
 });
