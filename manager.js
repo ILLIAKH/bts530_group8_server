@@ -174,6 +174,28 @@ module.exports = function(mongoDBConnectionString) {
                  });
              },
 
+             //Update Phone Number
+             phoneNumberUpdate: function (_id, newItem) {
+                return new Promise(function (resolve, reject) {
+                    User.findByIdAndUpdate(_id, newItem, {
+                        new: true
+                    }, (error, item) => {
+                        if (error) {
+                            // Cannot edit item
+                            return reject(error.message);
+                        }
+                        // Check for an item
+                        if (item) {
+                            // Edited object will be returned
+                            return resolve(item);
+                        } else {
+                            return reject('Not found');
+                        }
+     
+                    });
+                })
+            },
+
              //DELETE USER
              usersDelete: function (itemId) {
                  return new Promise(function (resolve, reject) {

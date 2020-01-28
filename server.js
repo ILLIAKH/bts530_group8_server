@@ -146,6 +146,23 @@ app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
             });
 });
 
+//phoneNumberUpdate
+app.put("/api/users/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+    //if (req.user.isAdmin === true) {
+    // Call the manager method
+    m.phoneNumberUpdate(req.params.id, req.params.phoneNumber)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch(() => {
+        res.status(404).json({ "message": "I caaaaant" });
+      })
+   // } else {
+      //res.status(403).json({ message: "User does not have the role claim needed" })
+    }
+  //}
+  );
+
 //Get Admins
 app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.admin()
