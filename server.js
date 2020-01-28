@@ -7,7 +7,7 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 const manager = require("./manager.js");
 
-"use strict";
+/*"use strict";
 const nodemailer = require("nodemailer");
 
 // async..await is not allowed in global scope, must use a wrapper
@@ -44,7 +44,7 @@ async function main() {
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
-main().catch(console.error);
+main().catch(console.error);*/
 const m = manager(
     "mongodb+srv://IKHOMENKO:iphone3G@senecaweb-mymvn.mongodb.net/BTS530?retryWrites=true",
     { useUnifiedTopology: true },
