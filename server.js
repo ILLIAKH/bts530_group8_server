@@ -32,7 +32,7 @@ async function main() {
     from: '"C-Kiosk" <ckiosk@example.com>', // sender address
     to: "jessicakrishtul@gmail.com", // list of receivers
     subject: "Your Subscription Has Changed", // Subject line
-    text: "Using nodemailer and ethereal mail for testing. I tried using my gmail but it got blocked.", // plain text body
+    text: "Hello Jessica! Your fruits subscription has changed. You will now be receiving strawberries, mangos, and bananas!", // plain text body
     // html: "<b>Hello world?</b>" // html body
   });
 
