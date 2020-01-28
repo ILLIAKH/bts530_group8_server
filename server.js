@@ -147,7 +147,7 @@ app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
 });
 
 //phoneNumberUpdate
-app.put("/api/users/:_id/phone", (req, res) => {
+app.put("/api/users/:_id/phone", passport.authenticate('jwt', { session: false }), (req, res) => {
     //if (req.user.isAdmin === true) {
     // Call the manager method
     m.phoneNumberUpdate(req.body)
