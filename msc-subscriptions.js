@@ -7,5 +7,5 @@ module.exports = new Schema({
     subBoxType: String,
     subPrice: Number,
     isActive: Boolean,
-    date: Date
+    date: String
 });
