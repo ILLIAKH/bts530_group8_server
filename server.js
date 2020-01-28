@@ -164,7 +164,7 @@ app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req,
 // Confirm subscription 
 app.put("/api/subscriptions/:_id/confirmed", (req, res) => {
     // Call the manager method
-    m.subscriptionConfirm(req.params.id, req.body)
+    m.subscriptionConfirm(req.params._id, req.body)
         .then((data) => {
             res.json({
                 "message": "Subscription confirmed successfully"

@@ -157,15 +157,15 @@ module.exports = function(mongoDBConnectionString) {
 
                      Users.findByIdAndUpdate(id, wrapItem, {
                          new: true
-                     }, (error, item) => {
+                     }, (error, newItem) => {
                          if (error) {
                              // Cannot edit item
                              return reject(error.message);
                          }
                          // Check for an item
-                         if (item) {
+                         if (newItem) {
                              // Edited object will be returned
-                             return resolve(item);
+                             return resolve(newItem);
                          } else {
                              return reject('Not found');
                          }
