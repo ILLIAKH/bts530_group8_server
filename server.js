@@ -117,7 +117,7 @@ app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(
 });
 
 //Update User
-app.put("/api/users/:_id/update"), (req, res) => {
+app.put("/api/users/:_id/update", passport.authenticate('jwt', {session: false}), (req, res) => {
         // Call the manager method
         m.usersUpdate(req.params._id)
             .then((data) => {
@@ -128,7 +128,7 @@ app.put("/api/users/:_id/update"), (req, res) => {
                     "message": "Resource not found"
                 });
             });
-};
+});
 
 // Delete User
 app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
