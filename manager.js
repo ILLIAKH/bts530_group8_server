@@ -175,9 +175,9 @@ module.exports = function(mongoDBConnectionString) {
              },
 
              //Update Phone Number
-             phoneNumberUpdate: function (_id, newItem) {
+             phoneNumberUpdate: function (newItem) {
                 return new Promise(function (resolve, reject) {
-                    User.findByIdAndUpdate(_id, newItem, {
+                    User.findByIdAndUpdate(newItem._id, newItem, {
                         new: true
                     }, (error, item) => {
                         if (error) {
