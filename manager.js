@@ -149,10 +149,10 @@ module.exports = function(mongoDBConnectionString) {
         },
 
          //UPDATE USER
-         usersUpdate: function (newItem) {
+         usersUpdate: function (id, newItem) {
                  return new Promise(function (resolve, reject) {
 
-                     Users.findByIdAndUpdate(newItem._id, newItem, {
+                     Users.findByIdAndUpdate(id, newItem, {
                          new: true
                      }, (error, item) => {
                          if (error) {
