@@ -163,7 +163,7 @@ app.get("/api/subscriptions/:subId", (req, res) => {
 app.post("/api/subscriptions", passport.authenticate('jwt', { session: false }), (req, res) => {
     // req.user has the token contents
     //I don't know why this if condition is not working
-    if (req.user.isAdmin === true) {
+    if (!req.user.isAdmin === true) {
       // Success
       m.subscriptionAdd(req.body)
       .then((data) => {
@@ -195,7 +195,7 @@ app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false 
 
 // Delete Subscription
 app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-    if (req.user.isAdmin === true) {
+    if (!req.user.isAdmin === true) {
     // Call the manager method
     m.subscriptionDelete(req.params.id)
       .then(() => {
