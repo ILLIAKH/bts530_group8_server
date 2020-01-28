@@ -236,7 +236,7 @@ app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false 
       res.status(404).json({ "message": "Resource not found" });
     })
  // } else {
-    res.status(403).json({ message: "User does not have the role claim needed" })
+    //res.status(403).json({ message: "User does not have the role claim needed" })
   }
 //}
 );
