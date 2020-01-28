@@ -228,7 +228,7 @@ app.post("/api/subscriptions/create", passport.authenticate('jwt', { session: fa
 app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
   //if (req.user.isAdmin === true) {
   // Call the manager method
-  m.subscriptionUpdate(req.params.id)
+  m.subscriptionUpdate(req.params.id, req.body)
     .then((data) => {
       res.json(data);
     })
