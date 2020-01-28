@@ -150,9 +150,12 @@ module.exports = function(mongoDBConnectionString) {
 
          //UPDATE USER
          usersUpdate: function (id, newItem) {
+             var wrapItem = {
+                 "subscriptionInfo": newItem
+             };
                  return new Promise(function (resolve, reject) {
 
-                     Users.findByIdAndUpdate(id, newItem, {
+                     Users.findByIdAndUpdate(id, wrapItem, {
                          new: true
                      }, (error, item) => {
                          if (error) {
