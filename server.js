@@ -119,7 +119,7 @@ app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(
 //Update User
 app.put("/api/users/:_id/update", passport.authenticate('jwt', {session: false}), (req, res) => {
         // Call the manager method
-        m.usersUpdate(req.params._id)
+        m.usersUpdate(req.params._id, req.body)
             .then((data) => {
                 res.json(data);
             })
