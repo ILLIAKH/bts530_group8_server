@@ -255,10 +255,10 @@ module.exports = function(mongoDBConnectionString) {
        },
 
        //UPDATE SUBSCRIPTION
-       subscriptionUpdate: function (newItem) {
+       subscriptionUpdate: function (_id, newItem) {
            return new Promise(function (resolve, reject) {
 
-               Subscriptions.findByIdAndUpdate(newItem._id, newItem, {
+               Subscriptions.findByIdAndUpdate(_id, newItem, {
                    new: true
                }, (error, item) => {
                    if (error) {
