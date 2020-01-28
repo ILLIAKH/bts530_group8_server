@@ -17,8 +17,8 @@ module.exports = new Schema({
     province: String,
     country: String,
     postalCode: String,
-    futureDeliveries: Date,
-    pastDeliveries: [Date],
+
+    pastDeliveries: [String],
     subscriptionInfo: [Subscriptions],
     //hello
 });
