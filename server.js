@@ -226,7 +226,7 @@ app.post("/api/subscriptions/create", passport.authenticate('jwt', { session: fa
 
 // Update Subscription
 app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-  if (req.user.isAdmin === true) {
+  //if (req.user.isAdmin === true) {
   // Call the manager method
   m.subscriptionUpdate(req.params.id)
     .then((data) => {
@@ -235,10 +235,11 @@ app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false 
     .catch(() => {
       res.status(404).json({ "message": "Resource not found" });
     })
-  } else {
+ // } else {
     res.status(403).json({ message: "User does not have the role claim needed" })
   }
-});
+//}
+);
 
 // Delete Subscription
 app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
