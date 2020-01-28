@@ -128,7 +128,7 @@ app.put("/api/users/:_id/update"), (req, res) => {
                     "message": "Resource not found"
                 });
             });
-});
+};
 
 // Delete User
 app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
