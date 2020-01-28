@@ -92,7 +92,7 @@ app.post("/api/users/login", (req, res) => {
 //Users---------------------------------------------------------------------------------------------------
 
 //Get All
-app.get("/api/users", (req, res) => {
+app.get("/api/users", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.usersGetAll()
     .then(data => {
         res.json(data);
@@ -104,7 +104,7 @@ app.get("/api/users", (req, res) => {
     });
 });
 //Get One
-app.get("/api/users/:username", (req, res) => {
+app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.usersGetById(req.params.username)
     .then(data => {
         res.json(data);
@@ -116,8 +116,38 @@ app.get("/api/users/:username", (req, res) => {
     });
 });
 
+//Update User
+app.put("/api/users/:_id/update", passport.authenticate('jwt', {session: false}), (req, res) => {
+        // Call the manager method
+        m.usersUpdate(req.params._id)
+            .then((data) => {
+                res.json(data);
+            })
+            .catch(() => {
+                res.status(404).json({
+                    "message": "Resource not found"
+                });
+            });
+});
+
+// Delete User
+app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+        // Call the manager method
+        m.usersDelete(req.params._id)
+            .then(() => {
+                res.status(204).end();
+            })
+            .catch(() => {
+                res.status(404).json({
+                    "message": "Resource not found"
+                });
+            });
+});
+
 //Get Admins
-app.get("/api/users/admin", (req, res) => {
+app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.admin()
     .then(data => {
         res.json(data);
@@ -130,6 +160,23 @@ app.get("/api/users/admin", (req, res) => {
 });
 
 //Subscriptions-------------------------------------------------------------------------------------------
+
+// Confirm subscription 
+app.put("/api/subscriptions/:_id/confirmed", (req, res) => {
+    // Call the manager method
+    m.subscriptionConfirm(req.params.id, req.body)
+        .then((data) => {
+            res.json({
+                "message": "Subscription confirmed successfully"
+            });
+        })
+        .catch(() => {
+            res.status(404).json({
+                "message": "Resource not found"
+            });
+        })
+});
+
 
 //Get All
 app.get("/api/subscriptions", (req, res) => {
@@ -160,10 +207,10 @@ app.get("/api/subscriptions/:subId", (req, res) => {
 
 
 // Add New Subscription
-app.post("/api/subscriptions", passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post("/api/subscriptions/create", passport.authenticate('jwt', { session: false }), (req, res) => {
     // req.user has the token contents
     //I don't know why this if condition is not working
-    if (!req.user.isAdmin === true) {
+    //if (req.user.isAdmin === true) {
       // Success
       m.subscriptionAdd(req.body)
       .then((data) => {
@@ -172,9 +219,9 @@ app.post("/api/subscriptions", passport.authenticate('jwt', { session: false }),
       .catch((error) => {
         res.status(500).json({ "message": error });
       })
-    } else {
-      res.status(403).json({ message: "User does not have the required permission" })
-    }
+   // } else {
+   //   res.status(403).json({ message: "User does not have the required permission" })
+    //}
   });
 
 // Update Subscription
@@ -195,7 +242,7 @@ app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false 
 
 // Delete Subscription
 app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-    if (!req.user.isAdmin === true) {
+   // if (req.user.isAdmin === true) {
     // Call the manager method
     m.subscriptionDelete(req.params.id)
       .then(() => {
@@ -204,9 +251,9 @@ app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: fal
       .catch(() => {
         res.status(404).json({ "message": "Resource not found" });
       })
-    } else {
-      res.status(403).json({ message: "User does not have the role claim needed" })
-    }
+  //  } else {
+   //   res.status(403).json({ message: "User does not have the role claim needed" })
+    //}
   });
 
 

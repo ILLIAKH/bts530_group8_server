@@ -148,6 +148,43 @@ module.exports = function(mongoDBConnectionString) {
             });
         },
 
+         //UPDATE USER
+         usersUpdate: function (newItem) {
+                 return new Promise(function (resolve, reject) {
+
+                     Users.findByIdAndUpdate(newItem._id, newItem, {
+                         new: true
+                     }, (error, item) => {
+                         if (error) {
+                             // Cannot edit item
+                             return reject(error.message);
+                         }
+                         // Check for an item
+                         if (item) {
+                             // Edited object will be returned
+                             return resolve(item);
+                         } else {
+                             return reject('Not found');
+                         }
+
+                     });
+                 });
+             },
+
+             //DELETE USER
+             usersDelete: function (itemId) {
+                 return new Promise(function (resolve, reject) {
+                     Users.findByIdAndRemove(itemId, (error) => {
+                         if (error) {
+                             // Cannot delete item
+                             return reject(error.message);
+                         }
+                         // Return success, but don't leak info
+                         return resolve();
+                     });
+                 });
+             },
+
         //GET ADMIN
         admin: function () {
             return new Promise(function (resolve, reject) {
@@ -163,7 +200,7 @@ module.exports = function(mongoDBConnectionString) {
                     return resolve(items);
                     
                   });
-              })
+              });
         },
 
         //Subscriptions---------------------------------------------------------------------
@@ -199,7 +236,81 @@ module.exports = function(mongoDBConnectionString) {
             });
         },
 
+   //ADD NEW
+   subscriptionAdd: function (newItem) {
+           return new Promise(function (resolve, reject) {
 
+               Subscriptions.create(newItem, (error, item) => {
+                   if (error) {
+                       // Cannot add item
+                       return reject(error.message);
+                   }
+                   //Added object will be returned
+                   return resolve(item);
+               });
+           })
+       },
+
+       //UPDATE SUBSCRIPTION
+       subscriptionUpdate: function (newItem) {
+           return new Promise(function (resolve, reject) {
+
+               Subscriptions.findByIdAndUpdate(newItem._id, newItem, {
+                   new: true
+               }, (error, item) => {
+                   if (error) {
+                       // Cannot edit item
+                       return reject(error.message);
+                   }
+                   // Check for an item
+                   if (item) {
+                       // Edited object will be returned
+                       return resolve(item);
+                   } else {
+                       return reject('Not found');
+                   }
+
+               });
+           })
+       },
+
+       //DELETE SUBSCRIPTION
+       subscriptionDelete: function (itemId) {
+           return new Promise(function (resolve, reject) {
+
+               Subscriptions.findByIdAndRemove(itemId, (error) => {
+                   if (error) {
+                       // Cannot delete item
+                       return reject(error.message);
+                   }
+                   // Return success, but don't leak info
+                   return resolve();
+               })
+           })
+       },
+
+        //Assign subscription to user
+        subscriptionConfirm: function (userId, subscriptionInfo) {
+            return new Promise(function (resolve, reject) {
+                var wrap = {
+                    "subscriptionInfo": subscriptionInfo
+                };
+                Student.findByIdAndUpdate(userId._id, wrap, {
+                    new: true
+                }, (error, item) => {
+                    if (error) {
+                        return reject(error.message);
+                    }
+                    // Check for an item
+                    if (item) {
+                        return resolve("Subscription Confirmed");
+                    } else {
+                        return reject('Not found');
+                    }
+                });
+            });
+        },
+        
         //Select by type--------------------------------------------------------------------
         //Vegetables
         vegetables: function (){
@@ -245,58 +356,6 @@ module.exports = function(mongoDBConnectionString) {
                 });
             });
         },
-
-        //ADD NEW
-        subscriptionAdd: function (newItem) {
-            return new Promise(function (resolve, reject) {
-      
-              Subscriptions.create(newItem, (error, item) => {
-                if (error) {
-                  // Cannot add item
-                  return reject(error.message);
-                }
-                //Added object will be returned
-                return resolve(item);
-              });
-            })
-          },
-
-          //UPDATE SUBSCRIPTION
-          subscriptionUpdate: function (newItem) {
-            return new Promise(function (resolve, reject) {
-      
-              Subscriptions.findByIdAndUpdate(newItem._id, newItem, { new: true }, (error, item) => {
-                if (error) {
-                  // Cannot edit item
-                  return reject(error.message);
-                }
-                // Check for an item
-                if (item) {
-                  // Edited object will be returned
-                  return resolve(item);
-                } else {
-                  return reject('Not found');
-                }
-      
-              });
-            })
-          },
-
-          //DELETE SUBSCRIPTION
-          subscriptionDelete: function (itemId) {
-            return new Promise(function (resolve, reject) {
-      
-              Subscriptions.findByIdAndRemove(itemId, (error) => {
-                if (error) {
-                  // Cannot delete item
-                  return reject(error.message);
-                }
-                // Return success, but don't leak info
-                return resolve();
-              })
-            })
-          }
-
 
     }; ////
 }; ////
