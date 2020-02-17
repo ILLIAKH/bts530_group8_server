@@ -149,20 +149,23 @@ module.exports = function(mongoDBConnectionString) {
         },
 
          //UPDATE USER
-         usersUpdate: function (newItem) {
+         usersUpdate: function (id, newItem) {
+             var wrapItem = {
+                 "subscriptionInfo": newItem
+             };
                  return new Promise(function (resolve, reject) {
 
-                     Users.findByIdAndUpdate(newItem._id, newItem, {
+                     Users.findByIdAndUpdate(id, wrapItem, {
                          new: true
-                     }, (error, item) => {
+                     }, (error, newItem) => {
                          if (error) {
                              // Cannot edit item
                              return reject(error.message);
                          }
                          // Check for an item
-                         if (item) {
+                         if (newItem) {
                              // Edited object will be returned
-                             return resolve(item);
+                             return resolve(newItem);
                          } else {
                              return reject('Not found');
                          }
@@ -170,6 +173,28 @@ module.exports = function(mongoDBConnectionString) {
                      });
                  });
              },
+
+             //Update Phone Number
+             phoneNumberUpdate: function (newItem) {
+                return new Promise(function (resolve, reject) {
+                    User.findByIdAndUpdate(newItem._id, newItem, {
+                        new: true
+                    }, (error, item) => {
+                        if (error) {
+                            // Cannot edit item
+                            return reject(error.message);
+                        }
+                        // Check for an item
+                        if (item) {
+                            // Edited object will be returned
+                            return resolve(item);
+                        } else {
+                            return reject('Not found');
+                        }
+     
+                    });
+                })
+            },
 
              //DELETE USER
              usersDelete: function (itemId) {
@@ -252,10 +277,10 @@ module.exports = function(mongoDBConnectionString) {
        },
 
        //UPDATE SUBSCRIPTION
-       subscriptionUpdate: function (newItem) {
+       subscriptionUpdate: function (_id, newItem) {
            return new Promise(function (resolve, reject) {
 
-               Subscriptions.findByIdAndUpdate(newItem._id, newItem, {
+               Subscriptions.findByIdAndUpdate(_id, newItem, {
                    new: true
                }, (error, item) => {
                    if (error) {

@@ -4,11 +4,21 @@ var Subscriptions = require('./msc-subscriptions');
 
 module.exports = new Schema({
     userName: {type: String, unique: true},
-    fullName: String,
+    firstName: String,
+    lastName: String,
     password: String,
+    phoneNumber: String,
     statusActivated: Boolean,
     statusLocked: Boolean,
     isAdmin: Boolean,
-    subscriptionInfo: [Subscriptions]
-//hello
+    streetName: String,
+    streetNumber: Number,
+    unit: Number,
+    province: String,
+    country: String,
+    postalCode: String,
+
+    pastDeliveries: [String],
+    subscriptionInfo: [Subscriptions],
+    //hello
 });

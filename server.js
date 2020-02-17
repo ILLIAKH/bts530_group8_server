@@ -7,7 +7,7 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 const manager = require("./manager.js");
 
-"use strict";
+/*"use strict";
 const nodemailer = require("nodemailer");
 
 // async..await is not allowed in global scope, must use a wrapper
@@ -44,9 +44,7 @@ async function main() {
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
-main().catch(console.error);
-
-
+main().catch(console.error);*/
 const m = manager(
     "mongodb+srv://IKHOMENKO:iphone3G@senecaweb-mymvn.mongodb.net/BTS530?retryWrites=true",
     { useUnifiedTopology: true },
@@ -159,7 +157,7 @@ app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(
 //Update User
 app.put("/api/users/:_id/update", passport.authenticate('jwt', {session: false}), (req, res) => {
         // Call the manager method
-        m.usersUpdate(req.params._id)
+        m.usersUpdate(req.params._id, req.body)
             .then((data) => {
                 res.json(data);
             })
@@ -186,6 +184,23 @@ app.delete("/api/users/:_id/delete", passport.authenticate('jwt', {
             });
 });
 
+//phoneNumberUpdate
+app.put("/api/users/:_id/phone", passport.authenticate('jwt', { session: false }), (req, res) => {
+    //if (req.user.isAdmin === true) {
+    // Call the manager method
+    m.phoneNumberUpdate(req.body)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch(() => {
+        res.status(404).json({ "message": "I caaaaant" });
+      })
+   // } else {
+      //res.status(403).json({ message: "User does not have the role claim needed" })
+    }
+  //}
+  );
+
 //Get Admins
 app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req, res) => {
     m.admin()
@@ -204,7 +219,7 @@ app.get("/api/users/admin", passport.authenticate('jwt', {session: false}),(req,
 // Confirm subscription 
 app.put("/api/subscriptions/:_id/confirmed", (req, res) => {
     // Call the manager method
-    m.subscriptionConfirm(req.params.id, req.body)
+    m.subscriptionConfirm(req.params._id, req.body)
         .then((data) => {
             res.json({
                 "message": "Subscription confirmed successfully"
@@ -233,7 +248,7 @@ app.get("/api/subscriptions", (req, res) => {
 
 //Get One
 app.get("/api/subscriptions/:subId", (req, res) => {
-    m.subscriptionsGetById(req.params.subId)
+    m.subscriptionsGetById(req.params._id)
     .then(data => {
         res.json(data);
     })
@@ -266,19 +281,20 @@ app.post("/api/subscriptions/create", passport.authenticate('jwt', { session: fa
 
 // Update Subscription
 app.put("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
-  if (req.user.isAdmin === true) {
+  //if (req.user.isAdmin === true) {
   // Call the manager method
-  m.subscriptionUpdate(req.params.id)
+  m.subscriptionUpdate(req.params.id, req.body)
     .then((data) => {
       res.json(data);
     })
     .catch(() => {
-      res.status(404).json({ "message": "Resource not found" });
+      res.status(404).json({ "message": "I caaaaant" });
     })
-  } else {
-    res.status(403).json({ message: "User does not have the role claim needed" })
+ // } else {
+    //res.status(403).json({ message: "User does not have the role claim needed" })
   }
-});
+//}
+);
 
 // Delete Subscription
 app.delete("/api/subscriptions/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
