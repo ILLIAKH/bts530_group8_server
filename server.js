@@ -155,9 +155,9 @@ app.get("/api/users/:username", passport.authenticate('jwt', {session: false}),(
 });
 
 //Update User
-app.put("/api/users/:_id/update", passport.authenticate('jwt', {session: false}), (req, res) => {
+app.put("/api/users/:_id/updateSubscriptionInfo", passport.authenticate('jwt', {session: false}), (req, res) => {
         // Call the manager method
-        m.usersUpdate(req.params._id, req.body)
+        m.usersUpdateSubscriptionInfo(req.params._id, req.body)
             .then((data) => {
                 res.json(data);
             })
@@ -166,6 +166,20 @@ app.put("/api/users/:_id/update", passport.authenticate('jwt', {session: false})
                     "message": "Resource not found"
                 });
             });
+});
+
+//Update User
+app.put("/api/users/:_id/updatePastDeliveries", passport.authenticate('jwt', {session: false}), (req, res) => {
+    // Call the manager method
+    m.usersUpdatePastDeliveries(req.params._id, req.body)
+        .then((data) => {
+            res.json(data);
+        })
+        .catch(() => {
+            res.status(404).json({
+                "message": "Resource not found"
+            });
+        });
 });
 
 // Delete User

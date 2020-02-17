@@ -149,7 +149,7 @@ module.exports = function(mongoDBConnectionString) {
         },
 
          //UPDATE USER
-         usersUpdate: function (id, newItem) {
+         usersUpdateSubscriptionInfo: function (id, newItem) {
              var wrapItem = {
                  "subscriptionInfo": newItem
              };
@@ -173,6 +173,32 @@ module.exports = function(mongoDBConnectionString) {
                      });
                  });
              },
+
+             //UPDATE USER
+         usersUpdatePastDeliveries: function (id, newItem) {
+            var wrapItem = {
+                "pastDeliveries": newItem
+            };
+                return new Promise(function (resolve, reject) {
+
+                    Users.findByIdAndUpdate(id, wrapItem, {
+                        new: true
+                    }, (error, newItem) => {
+                        if (error) {
+                            // Cannot edit item
+                            return reject(error.message);
+                        }
+                        // Check for an item
+                        if (newItem) {
+                            // Edited object will be returned
+                            return resolve(newItem);
+                        } else {
+                            return reject('Not found');
+                        }
+
+                    });
+                });
+            },
 
              //Update Phone Number
              phoneNumberUpdate: function (newItem) {
