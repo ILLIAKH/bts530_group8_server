@@ -261,8 +261,8 @@ app.get("/api/subscriptions", (req, res) => {
 });
 
 //Get One
-app.get("/api/subscriptions/:subId", (req, res) => {
-    m.subscriptionsGetById(req.params.id)
+app.get("/api/subscriptions/:_id", (req, res) => {
+    m.subscriptionsGetById(req.params._id)
     .then(data => {
         res.json(data);
     })
