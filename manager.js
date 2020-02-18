@@ -31,9 +31,6 @@ module.exports = function(mongoDBConnectionString) {
             });
         },
 
-
-      
-
         /////Register---------------------------------------------------------------------
         usersRegister: function (userData) {
             return new Promise(function (resolve, reject) {
