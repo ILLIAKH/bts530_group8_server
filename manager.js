@@ -8,10 +8,12 @@ mongoose.set('useCreateIndex', true);
 //load schemas
 const users = require("./msc-useraccounts");
 const subscriptions = require("./msc-subscriptions");
+const feedback = require("./msc-feedback");
 
 module.exports = function(mongoDBConnectionString) {
     let Users;
     let Subscriptions;
+    let Feedback;
     
     return{
         connect: function(){
@@ -23,6 +25,7 @@ module.exports = function(mongoDBConnectionString) {
                 db.once("open", () => {
                     Users = db.model("main", users, "useraccounts");
                     Subscriptions = db.model("main2", subscriptions, "subscriptioninfo");
+                    Feedback = db.model("main3", feedback, "feedback");
                     resolve();
                 });
             });
@@ -381,6 +384,91 @@ module.exports = function(mongoDBConnectionString) {
                 });
             });
         },
+
+        //////////USER FEEDBACK
+
+        //GET ALL FEEDBACK
+        feedbackGetAll: function() {
+            return new Promise(function (resolve, reject){
+                Feedback.find() 
+                .exec((error, items) => {
+                    if(error) {
+                        return reject(error.message);
+                    }
+                    return resolve(items);
+                });
+            });
+        },
+
+        //GET ONE
+        feedbackGetById: function(feedbackid){
+            return new Promise(function (resolve, reject){
+                Feedback.findOne({feedbackId: feedbackid}, (error, item) =>{
+                    if (error) {
+                        return reject(error.message);
+                    }
+                    if (item) {
+                        return resolve(item);
+                    } else {
+                        return reject("Not Found");
+                    }
+                });
+            });
+        },
+
+    //ADD NEW
+   feedbackAdd: function (newItem) {
+    return new Promise(function (resolve, reject) {
+
+       Feedback.create(newItem, (error, item) => {
+            if (error) {
+                // Cannot add item
+                return reject(error.message);
+            }
+            //Added object will be returned
+            return resolve(item);
+        });
+    })
+},
+
+//UPDATE FEEDBACK
+feebackUpdate: function (_id, newItem) {
+    return new Promise(function (resolve, reject) {
+
+        Feedback.findByIdAndUpdate(_id, newItem, {
+            new: true
+        }, (error, item) => {
+            if (error) {
+                // Cannot edit item
+                return reject(error.message);
+            }
+            // Check for an item
+            if (item) {
+                // Edited object will be returned
+                return resolve(item);
+            } else {
+                return reject('Not found');
+            }
+
+        });
+    })
+},
+
+//DELETE FEEDBACK
+feedbackDelete: function (itemId) {
+    return new Promise(function (resolve, reject) {
+
+        Feedback.findByIdAndRemove(itemId, (error) => {
+            if (error) {
+                // Cannot delete item
+                return reject(error.message);
+            }
+            // Return success, but don't leak info
+            return resolve();
+        })
+    })
+},
+
 
     }; ////
 }; ////

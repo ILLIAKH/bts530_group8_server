@@ -11,9 +11,6 @@ module.exports = new Schema({
     statusActivated: Boolean,
     statusLocked: Boolean,
     isAdmin: Boolean,
-<<<<<<< HEAD
-    subscriptionInfo: [Subscriptions]
-=======
     streetName: String,
     streetNumber: Number,
     unit: Number,
@@ -24,5 +21,4 @@ module.exports = new Schema({
     pastDeliveries: [String],
     subscriptionInfo: [Subscriptions],
     //hello
->>>>>>> 4f757a4e72bb3dd9b50c50c8606ffc07fcf26269
 });

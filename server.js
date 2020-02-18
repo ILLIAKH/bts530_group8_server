@@ -7,10 +7,6 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 const manager = require("./manager.js");
 
-<<<<<<< HEAD
-const nodemailer = require("nodemailer");
-
-=======
 /*"use strict";
 const nodemailer = require("nodemailer");
 
@@ -49,7 +45,6 @@ async function main() {
 }
 
 main().catch(console.error);*/
->>>>>>> 4f757a4e72bb3dd9b50c50c8606ffc07fcf26269
 const m = manager(
     "mongodb+srv://IKHOMENKO:iphone3G@senecaweb-mymvn.mongodb.net/BTS530?retryWrites=true",
     { useUnifiedTopology: true },
@@ -397,7 +392,60 @@ app.get("/api/subscriptions/combined/find", (req, res) => {
         });
 });
 
+//Get All
+app.get("/api/feedback", passport.authenticate('jwt', {session: false}),(req, res) => {
+    m.feedbackGetAll()
+    .then(data => {
+        res.json(data);
+    })
+    .catch(() => {
+        res.status(404).json({
+            message: "Resource not found"
+        });
+    });
+});
+//Get One
+app.get("/api/feedback/:id", passport.authenticate('jwt', {session: false}),(req, res) => {
+    m.feedbackGetById(req.params._id)
+    .then(data => {
+        res.json(data);
+    })
+    .catch(() => {
+        res.status(404).json({
+            message: "Resource not found"
+        });
+    });
+});
 
+//Update Feedback
+app.put("/api/feedback/:_id/update", passport.authenticate('jwt', {session: false}), (req, res) => {
+        // Call the manager method
+        m.feedbackUpdate(req.params._id, req.body)
+            .then((data) => {
+                res.json(data);
+            })
+            .catch(() => {
+                res.status(404).json({
+                    "message": "Resource not found"
+                });
+            });
+});
+
+// Delete feedback
+app.delete("/api/feedback/:_id/delete", passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+        // Call the manager method
+        m.feedbackDelete(req.params._id)
+            .then(() => {
+                res.status(204).end();
+            })
+            .catch(() => {
+                res.status(404).json({
+                    "message": "Resource not found"
+                });
+            });
+});
 /////////Connect///////////
 m.connect()
 .then(() => {
