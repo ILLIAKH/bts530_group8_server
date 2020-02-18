@@ -274,7 +274,7 @@ module.exports = function(mongoDBConnectionString) {
         //GET ONE
         subscriptionsGetById: function(subid){
             return new Promise(function (resolve, reject){
-                Subscriptions.findOne({_id: subid}, (error, item) =>{
+                Subscriptions.findById({_id: subid}, (error, item) =>{
                     if (error) {
                         return reject(error.message);
                     }
